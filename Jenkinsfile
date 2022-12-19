@@ -25,7 +25,7 @@ pipeline{
         }
         steps{
             echo "Deplying to dev"
-} 
+
         }
     }
   }
