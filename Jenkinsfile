@@ -1,23 +1,31 @@
 pipeline{
     agent any
     stages{
-        stage('Git Checkout'){
-            steps{
-                git branch: 'main', credentialsId: 'git-creds', url: 'https://github.com/mohanb99061/hiring/'
-            }
-        }
+        
         stage('Maven Build'){
+            when {
+                branch 'develop'
+            }
         steps{
             sh "mvn clean package"
         }
     }
-    stage('Tomcat Build'){
+    stage('Tomcat Deploy - Dev'){
+        when{
+            branch 'develop'
+        }
         steps{
-            sshagent(['tomcat-creds']) {
-               sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.16.117:/opt/tomcat9/webapps"
-               sh "ssh ec2-user@172.31.16.117 /opt/tomcat9/bin/shutdown.sh"
-               sh "ssh ec2-user@172.31.16.117 /opt/tomcat9/bin/startup.sh"
+            echo "Deplying to dev"
 } 
+        }
+        
+        stage('Tomcat Deploy - Prod'){
+        when{
+            branch 'develop'
+        }
+        steps{
+            echo "Deplying to production"
+
         }
     }
   }
