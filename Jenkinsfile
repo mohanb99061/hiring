@@ -19,12 +19,12 @@ pipeline{
 } 
         }
         
-        stage('Tomcat Deploy - Dev'){
+        stage('Tomcat Deploy - Prod'){
         when{
             branch 'develop'
         }
         steps{
-            echo "Deplying to dev"
+            echo "Deplying to production"
 
         }
     }
